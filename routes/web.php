@@ -3,6 +3,9 @@
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\users;
+use App\Http\Controllers\Tuesday;
+use App\Http\Controllers\UserTuesday;
+
 
 Route::pattern('id', '[0-9]+');
 
@@ -66,3 +69,8 @@ Route::get('heba/{id?}', function ($id = null) {
 });
 // )->where('id', '[0-9]+'); حاله قديمة
 Route::resource('users', UserController::class);
+Route::view('view2', 'view2');
+Route::post("Tuesday", [Tuesday::class, 'getDate']);
+Route::view("login", "Tuesday");
+Route::view("noaccess", "noaccess");
+Route::get("UserTuesday", [UserTuesday::class, 'index']);
