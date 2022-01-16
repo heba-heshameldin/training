@@ -5,12 +5,17 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\users;
 use App\Http\Controllers\Tuesday;
 use App\Http\Controllers\UserTuesday;
-
+use App\Http\Controllers\MemberControlles;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
+use App\Mail\SampleMail;
+use App\Mail\TestMail;
 
 Route::pattern('id', '[0-9]+');
 
 Route::get('/', function () {
-    return view('hello');
+    // return view('hello');
+    return new TestMail();
 });
 Route::get('test', function () {
     return "hi in my test file ";
@@ -21,9 +26,18 @@ Route::get('test', function () {
 //     echo $name;
 //     return view('hello');
 // });
+$data = "Never give up. Great things take time. Be patient.";
+$data = Str::of($data)
+    ->replaceFirst("Never", "always", $data)
+    ->camel($data)
+    ->ucfirst($data);
+echo $data;
 
 Route::view("about", 'about');
 Route::view("contact", 'contact');
+// today 16/1/2022
+
+
 Route::get("users/{user}", [users::class, 'index']);
 Route::get("users/{user}", [users::class, 'index']);
 
@@ -73,4 +87,9 @@ Route::view('view2', 'view2');
 Route::post("Tuesday", [Tuesday::class, 'getDate']);
 Route::view("login", "Tuesday");
 Route::view("noaccess", "noaccess");
-Route::get("UserTuesday", [UserTuesday::class, 'index']);
+// Route::get("UserTuesday", [UserTuesday::class, 'index']);
+Route::group(['middleware' => ['ProductePage']], function () {
+    Route::view("login", "Tuesday");
+});
+Route::get("UserTuesday", [UserTuesday::class, 'index1']);
+Route::get("membre", [MemberControlles::class, 'index']);
